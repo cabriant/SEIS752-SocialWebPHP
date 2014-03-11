@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+		<style type="text/css">
+			.main-content {
+				margin-top: 60px;
+			}
+			
+			.course-table {
+				margin: 10px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='navbar navbar-default navbar-fixed-top bottom-box-shadow'>
+			<div class="container">
+				<div class='navbar-header'>
+					<a class='navbar-brand' href='http://www.briantsolutions.com'>Briant Solutions | Grad Classes</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="main-content">
+			<div class="container">
+				<div class="home-content">
+					<h2>
+						Welcome to Briant Solutions!
+					</h2>
+					<div>
+						My name is Chris Briant.  I am a graduate student at the University of St. Thomas in St. Paul, Minnesota.
+					</div>
+					<table class="table table-striped course-table">
+						<thead>
+							<th>
+								Class Title
+							</th>
+							<th>
+								Semester
+							</th>
+						</thead>
+						<tbody class="class-row-collection">
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div style="display: none;">
+				<table id="class-row-template">
+					<tr>
+						<td class="col-sm-6">
+							<a class="class-title" href="" target="_blank"></a>
+						</td>
+						<td class="col-sm-6 class-semester"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="container">
+				<a class='emblem' href='http://www.briantsolutions.com'>Briant Solutions</a> | 
+				<a class='footer-link' href='#'>&copy; 2014 Briant Solutions</a>
+			</div>
+		</div>
+		
+		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript">
+			var aList = [{title: "SEIS 605 - Technical Communication", semester: "Spring 2012", link: "500"},
+						 {title: "SEIS 610 - Software Engineering", semester: "Summer 2012", link: "510"},
+						 {title: "SEIS 630 - Database Management Systems and Design", semester: "Fall 2012", link: "530"},
+						 {title: "SEIS 635 - Software Analysis and Design", semester: "Fall 2012", link: "543"},
+						 {title: "SEIS 625 - Software Project Management", semester: "Spring 2013", link: "600"},
+						 {title: "SEIS 765 - Client-Server", semester: "Spring 2013", link: "626"},
+						 {title: "SEIS 626 - Software Quality Assurance and Quality Control", semester: "Fall 2013", link: "605"},
+						 {title: "SEIS 751 - Web Application Desing and Development", semester: "Fall 2013", link: "621"},
+						 {title: "SEIS 755 - Human-Computer Interface Design", semester: "Fall 2013", link: "533"},
+						 {title: "SEIS 708 - Software Architecture", semester: "Spring 2014", link: "SEIS708"},
+						 {title: "SEIS 736 - Big Data Architecture", semester: "Spring 2014", link: "SEIS736"},
+						 {title: "SEIS 752 - Advanced Web Application Development", semester: "Spring 2014", link: "622"}];
+			
+			$(document).ready(function () {
+				$(aList).each(function () {
+					var newClass = $("#class-row-template tbody").children().clone();
+					$(newClass).find(".class-title").html(this.title);
+					$(newClass).find(".class-semester").html(this.semester);
+					$(newClass).find(".class-title").attr('href', "http://www.stthomas.edu/gradsoftware/programs/catalog/default.html#" + this.link);
+					$(".class-row-collection").append(newClass);
+				});
+			});
+		</script>
+	</body>
+</html>

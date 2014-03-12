@@ -30,6 +30,10 @@
         renderNavBar(true, "searchAjax");
     }
 
+    function renderSearchjQueryAjaxNavBar() {
+        renderNavBar(true, "searchJQueryAjax");
+    }
+
     function renderEmptyNavBar() {
         renderNavBar(false, "");
     }
@@ -67,6 +71,7 @@
                             renderSimpleNavBarItem("myfriends.php", "My Friends", (strcasecmp($active_tab, "myfriends") == 0));
                             renderSimpleNavBarItem("search.php", "Search", (strcasecmp($active_tab, "search") == 0));
                             renderSimpleNavBarItem("searchAjax.php", "Search AJAX", (strcasecmp($active_tab, "searchAjax") == 0));
+                            renderSimpleNavBarItem("searchJQueryAjax.php", "Search AJAX 2.0", (strcasecmp($active_tab, "searchJQueryAjax") == 0));
 
                             ?>
                         </ul>

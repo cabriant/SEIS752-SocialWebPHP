@@ -16,7 +16,7 @@
 	        		$user_query = $_POST['user_query'];
 	        		$query_results = searchUsers($user_query);
 	        	} else {
-	        		storeInSession('search_error', 'You must provide a username and password to log in.');
+	        		storeInSession('search_error', 'You must provide a name to search.');
 	        	}
 				break;
 	    }
@@ -38,6 +38,7 @@
 				User Search
 			</h3>
 			<div>
+				<?php renderErrorMessage('search_error'); ?>
 				<form action="search.php" method="post">
 					<input type="hidden" name="action" value="query_user" />
 					<input class="form-control" type="text" name="user_query" placeholder="User's name..." value="<?php if (isset($user_query) && !empty($user_query)) { echo $user_query; } ?>" />

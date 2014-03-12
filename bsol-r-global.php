@@ -22,6 +22,10 @@
         renderNavBar(true, "myfriends");
     }
 
+    function renderSearchNavBar() {
+        renderNavBar(true, "search");
+    }
+
     function renderEmptyNavBar() {
         renderNavBar(false, "");
     }
@@ -57,6 +61,7 @@
                             renderSimpleNavBarItem("profile.php", "Profile", (strcasecmp($active_tab, "profile") == 0));
                             renderSimpleNavBarItem("allprofiles.php", "All Users", (strcasecmp($active_tab, "all") == 0));
                             renderSimpleNavBarItem("myfriends.php", "My Friends", (strcasecmp($active_tab, "myfriends") == 0));
+                            renderSimpleNavBarItem("search.php", "Search", (strcasecmp($active_tab, "search") == 0));
 
                             ?>
                         </ul>
@@ -69,7 +74,7 @@
                         ?>
                         <a href="logoff.php" class="logoff-btn pull-right"> Log Off</a>
                         <div class="pull-right">
-                            <?php echo $user['displayname']; ?> | 
+                            <?php echo $user['name']; ?> | 
                         </div>
                         <?php
                     }

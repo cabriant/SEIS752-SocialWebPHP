@@ -14,18 +14,18 @@
 	    switch($action) {
 	        case 'add_friend' : 
 	        	if (!empty($id)) {
-	        		addUserAsFriend($user['username'], $id);
+	        		addUserAsFriend($user['id'], $id);
 	        	}
 	        	break;
 	        case 'remove_friend' :
 	        	if (!empty($id)) {
-	        		removeUserAsFriend($user['username'], $id);
+	        		removeUserAsFriend($user['id'], $id);
 	        	}
 	        	break;
 	    }
 	}
 
-	$all_users = getAllUsers($user['username']);
+	$all_users = getAllUsers($user['id']);
 ?>
 
 <!DOCTYPE html>
@@ -49,17 +49,17 @@
 				?>
 
 					<div style="margin-bottom: 20px;">
-						<a href="profile.php?id=<?php echo $rowUser['username']; ?>"><?php echo $rowUser['displayname']; ?></a>
+						<a href="profile.php?id=<?php echo $rowUser['id']; ?>"><?php echo $rowUser['name']; ?></a>
 						<?php if ($rowUserIsFriend) { ?>
 							<form action="allprofiles.php" method="POST">
 								<input type="hidden" name="action" value="remove_friend">
-								<input type="hidden" name="id" value="<?php echo $rowUser['username']; ?>">
+								<input type="hidden" name="id" value="<?php echo $rowUser['id']; ?>">
 								<button type="submit" title="Remove Friend" class="btn btn-danger">Remove Friend</button>
 							</form>
 						<?php } else { ?>
 							<form action="allprofiles.php" method="POST">
 								<input type="hidden" name="action" value="add_friend">
-								<input type="hidden" name="id" value="<?php echo $rowUser['username']; ?>">
+								<input type="hidden" name="id" value="<?php echo $rowUser['id']; ?>">
 								<button type="submit" title="Add Friend" class="btn btn-primary">Add Friend</button>
 							</form>
 						<?php } ?>

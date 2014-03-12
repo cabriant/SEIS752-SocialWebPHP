@@ -14,13 +14,13 @@
 	    switch($action) {
 	        case 'remove_friend' :
 	        	if (!empty($id)) {
-	        		removeUserAsFriend($user['username'], $id);
+	        		removeUserAsFriend($user['id'], $id);
 	        	}
 	        	break;
 	    }
 	}
 
-	$all_users = getAllFriends($user['username']);
+	$all_users = getAllFriends($user['id']);
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +43,10 @@
 				?>
 
 					<div style="margin-bottom: 20px;">
-						<a href="profile.php?id=<?php echo $rowUser['username']; ?>"><?php echo $rowUser['displayname']; ?></a>
+						<a href="profile.php?id=<?php echo $rowUser['id']; ?>"><?php echo $rowUser['name']; ?></a>
 						<form action="myfriends.php" method="POST">
 							<input type="hidden" name="action" value="remove_friend">
-							<input type="hidden" name="id" value="<?php echo $rowUser['username']; ?>">
+							<input type="hidden" name="id" value="<?php echo $rowUser['id']; ?>">
 							<button type="submit" title="Remove Friend" class="btn btn-danger">Remove Friend</button>
 						</form>
 					</div>

@@ -27,7 +27,7 @@
 	function getUser($username, $password) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('SELECT * FROM user_info WHERE username = ? and password = ? LIMIT 1');
+		$stmt = $db->prepare('SELECT * FROM users WHERE username = ? and password = ? LIMIT 1');
 		$stmt->execute(array($username, $password));
 		$result = $stmt->fetchAll();
 
@@ -38,11 +38,11 @@
 		return null;
 	}
 
-	function getUserInfo($username) {
+	function getUserInfo($user_id) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('SELECT * FROM user_info WHERE username = ?');
-		$stmt->execute(array($username));
+		$stmt = $db->prepare('SELECT * FROM users WHERE id = ?');
+		$stmt->execute(array($user_id));
 		$result = $stmt->fetchAll();
 
 		$db = null;
@@ -55,7 +55,7 @@
 	function getUserStream($user_id) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('SELECT * FROM messages WHERE postedToUsername = ? order by date desc');
+		$stmt = $db->prepare('SELECT * FROM messages WHERE postedToUser = ? order by date desc');
 		$stmt->execute(array($user_id));
 		$result = $stmt->fetchAll();
 
@@ -69,7 +69,7 @@
 	function addMessageToUserStream($fromUserId, $toUserId, $message) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('INSERT INTO messages (postedToUsername, postedFromUsername, message) 
+		$stmt = $db->prepare('INSERT INTO messages (postedToUser, postedFromUser, message) 
 								VALUES (?, ?, ?)');
 		$stmt->execute(array($toUserId, $fromUserId, $message));
 		$result = $stmt->fetchAll();
@@ -80,11 +80,11 @@
 	function getAllUsers($user_id) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('SELECT friend_username FROM relationships WHERE username = ?');
+		$stmt = $db->prepare('SELECT friend_user_id FROM relationships WHERE user_id = ?');
 		$stmt->execute(array($user_id));
 		$friend_result = $stmt->fetchAll();
 
-		$stmt = $db->prepare('SELECT * FROM user_info WHERE username != ?');
+		$stmt = $db->prepare('SELECT * FROM users WHERE id != ?');
 		$stmt->execute(array($user_id));
 		$user_result = $stmt->fetchAll();
 
@@ -93,7 +93,7 @@
 		foreach ($user_result as $row) {
 			$is_friend = false;
 			foreach ($friend_result as $friendRow) {
-			 	if (strcasecmp($row['username'], $friendRow['friend_username']) == 0) {
+			 	if (strcasecmp($row['id'], $friendRow['friend_user_id']) == 0) {
 			 		$is_friend = true;
 			 		break;
 			 	}
@@ -111,7 +111,7 @@
 	function getAllFriends($user_id) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('SELECT * FROM user_info WHERE username in (SELECT friend_username FROM relationships WHERE username = ?)');
+		$stmt = $db->prepare('SELECT * FROM users WHERE id in (SELECT friend_user_id FROM relationships WHERE user_id = ?)');
 		$stmt->execute(array($user_id));
 		$user_result = $stmt->fetchAll();
 
@@ -130,7 +130,7 @@
 	function addUserAsFriend($current_user, $new_friend) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('INSERT INTO relationships (username, friend_username) VALUES (?, ?)');
+		$stmt = $db->prepare('INSERT INTO relationships (user_id, friend_user_id) VALUES (?, ?)');
 		$stmt->execute(array($current_user, $new_friend));
 		$result = $stmt->fetchAll();
 
@@ -140,10 +140,22 @@
 	function removeUserAsFriend($current_user, $old_friend) {
 		$db = getDbConnection();
 
-		$stmt = $db->prepare('DELETE FROM relationships  WHERE username = ? AND friend_username = ?');
+		$stmt = $db->prepare('DELETE FROM relationships  WHERE user_id = ? AND friend_user_id = ?');
 		$stmt->execute(array($current_user, $old_friend));
 		$result = $stmt->fetchAll();
 
 		$db = null;
+	}
+
+	function searchUsers($user_query) {
+		$db = getDbConnection();
+
+		$stmt = $db->prepare("SELECT * FROM users WHERE name like ?");
+		$stmt->execute(array('%'.$user_query.'%'));
+		$user_result = $stmt->fetchAll();
+
+		$db = null;
+
+		return $user_result;
 	}
 ?>

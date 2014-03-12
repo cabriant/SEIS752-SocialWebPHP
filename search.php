@@ -26,7 +26,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php getMainTitle(); ?> Profile</title>
+	<title><?php getMainTitle(); ?> Search</title>
 	<?php renderHead(); ?>
 </head>
 <body>

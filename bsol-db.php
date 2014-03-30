@@ -158,4 +158,26 @@
 
 		return $user_result;
 	}
+
+	function insertTwilioDump($content) {
+		$db = getDbConnection();
+
+		$stmt = $db->prepare('INSERT INTO twiliodump (dump) VALUES (?)');
+		$stmt->execute(array($content));
+		$result = $stmt->fetchAll();
+
+		$db = null;
+	}
+
+	function getBlastStream() {
+		$db = getDbConnection();
+
+		$stmt = $db->prepare('SELECT * FROM twiliodump order by ts desc limit 5');
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+
+		$db = null;
+
+		return $result;
+	}
 ?>

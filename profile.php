@@ -16,9 +16,9 @@
 	        case 'post_message' : 
 	        	if (!empty($message)) {
 	        		if (!empty($id))
-	        			addMessageToUserStream($user['username'], $id, $message);
+	        			addMessageToUserStream($user['id'], $id, $message);
 	        		else
-	        			addMessageToUserStream($user['username'], $user['username'], $message);
+	        			addMessageToUserStream($user['id'], $user['id'], $message);
 	        	}
 
 	        	//storeInSession('login_error', 'You must provide a username and password to log in.');
@@ -36,10 +36,11 @@
 	if (!empty($q_id)) {
 		$u_id = $q_id;
 	} else {
-		$u_id = $user['username'];
+		$u_id = $user['id'];
 	}
 
 	$user_stream = getUserStream($u_id);
+	$blast_stream = getBlastStream();
 	$profileUser = getUserInfo($u_id);
 ?>
 
@@ -66,9 +67,40 @@
 					</div>
 				</form>
 			</div>
+			<?php
+				if (!empty($blast_stream)) {
+			?>
+					<h3>
+						Blast Stream
+					</h3>
+					
+					<?php
+						foreach ($blast_stream as $blast_item) {
+							$dumpContent = $blast_item['dump'];
+							$dumpContentArray = json_decode($dumpContent, TRUE);
+							$phoneNumber = $dumpContentArray['From'];
+							$displayNumber = "***-***-" . substr($phoneNumber, strlen($phoneNumber) - 4);
+					?>
+							<div>
+								<div>
+									<?php echo $displayNumber; ?>
+								</div>
+								<div>
+									<?php echo $blast_item['ts']; ?>
+								</div>
+								<div>
+									<?php echo $dumpContentArray['Body']; ?>
+								</div>
+							</div>
+							<br>
+					<?php
+						}		
+				}
+			?>
+			</h3>
 			<h3>
-				<?php if (isset($profileUser) && strcasecmp($profileUser['username'], $user['username']) != 0) { ?>
-					<?php echo $profileUser['displayname']; ?>'s Stream
+				<?php if (isset($profileUser) && strcasecmp($profileUser['id'], $user['id']) != 0) { ?>
+					<?php echo $profileUser['name']; ?>'s Stream
 				<?php } else { ?>
 					My Stream
 				<?php } ?>
@@ -82,11 +114,11 @@
 ?>
 							<div>
 								<?php 
-									if (strcasecmp($user_stream_item['postedFromUsername'], $user_stream_item['postedToUsername']) == 0) { 
+									if (strcasecmp($user_stream_item['postedFromUser'], $user_stream_item['postedToUser']) == 0) { 
 										// User posted this message to themselves (i.e. status update)
 								?>
 										<div>
-											<a href="profile.php?id=<?php echo $profileUser['username']; ?>"><?php echo $profileUser['displayname']; ?></a>
+											<a href="profile.php?id=<?php echo $profileUser['id']; ?>"><?php echo $profileUser['name']; ?></a>
 										</div>
 										<div>
 											<?php echo $user_stream_item['date']; ?>
@@ -100,13 +132,13 @@
 								?>
 										<div>
 											<?php 
-												$postedFromUser = getUserInfo($user_stream_item['postedFromUsername']);
-												$postedToUser = getUserInfo($user_stream_item['postedToUsername']);
+												$postedFromUser = getUserInfo($user_stream_item['postedFromUser']);
+												$postedToUser = getUserInfo($user_stream_item['postedToUser']);
 											?>
 
-											<a href="profile.php?id=<?php echo $postedFromUser['username']; ?>"><?php echo $postedFromUser['displayname']; ?></a>
+											<a href="profile.php?id=<?php echo $postedFromUser['id']; ?>"><?php echo $postedFromUser['name']; ?></a>
 											--> 
-											<a href="profile.php?id=<?php echo $postedToUser['username']; ?>"><?php echo $postedToUser['displayname']; ?></a>
+											<a href="profile.php?id=<?php echo $postedToUser['id']; ?>"><?php echo $postedToUser['name']; ?></a>
 											
 										</div>
 										<div>

@@ -52,6 +52,10 @@
 								<button type="submit" title="Login" class="btn btn-primary center">Login</button>
 							</div>
 						</form>
+
+						<a href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=244384673234-vfh4f1dnmsl31o124osebabnmio30jqe.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Fbriantsolutions.com%2Foauth%2Fv2%2Fauthentication.php&scope=profile%20https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/calendar">
+							Login with Google
+						</a>
 					</div>
 				</div>
 			</div> <!-- /container -->
